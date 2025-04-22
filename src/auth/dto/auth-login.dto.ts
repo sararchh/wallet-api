@@ -1,5 +1,6 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDecimal, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Decimal } from '@prisma/client/runtime/library';
 
 export class AuthLoginDTO {
   @ApiProperty({ example: 'user@example.com', description: 'The email of the user' })
@@ -13,6 +14,6 @@ export class AuthLoginDTO {
   password: string;
 
   @ApiProperty({ example: 100.0, description: 'The balance of the user' })
-  @IsNumber()
-  balance: number;
+  @IsDecimal()
+  balance: Decimal;
 }

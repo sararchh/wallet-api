@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@/prisma/prisma.service';
 import { UsersService } from '@/users/users.service';
+import { Decimal } from '@prisma/client/runtime/library';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -38,6 +39,7 @@ describe('AuthController', () => {
     const result = await controller.login({
       email: 'test@example.com',
       password: 'password',
+      balance: new Decimal(100.0),
     });
     expect(loginSpy).toHaveBeenCalledWith('test@example.com', 'password');
     expect(result).toEqual({
@@ -57,10 +59,12 @@ describe('AuthController', () => {
     const result = await controller.register({
       email: 'test@example.com',
       password: 'password',
+      balance: new Decimal(100.0),
     });
     expect(registerSpy).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: 'password',
+      balance: new Decimal(100.0),
     });
     expect(result).toEqual({
       id: 1,
