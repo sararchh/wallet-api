@@ -19,7 +19,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserResponseDto } from './dto/response-user.dto';
 
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('api/users')
 @UseGuards(AuthGuard('jwt'))
 export class UsersController {
@@ -39,7 +39,7 @@ export class UsersController {
   async create(@Body() createUserDto: CreateUserDto) {
     try {
       const user = await this.usersService.create(createUserDto);
-      return { id: user.id, email: user.email };
+      return user;
     } catch (error) {
       throw new HttpException(
         `Failed to create user: ${error.message}`,
@@ -59,7 +59,7 @@ export class UsersController {
   async findAll() {
     try {
       const users = await this.usersService.findAll();
-      return users.map(user => ({ id: user.id, email: user.email }));
+      return users;
     } catch (error) {
       throw new HttpException(
         `Failed to find users: ${error.message}`,
@@ -83,7 +83,7 @@ export class UsersController {
       if (!user) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
-      return { id: user.id, email: user.email };
+      return user;
     } catch (error) {
       throw new HttpException(
         `Failed to find user: ${error.message}`,
@@ -107,7 +107,7 @@ export class UsersController {
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
       const user = await this.usersService.update(+id, updateUserDto);
-      return { id: user.id, email: user.email };
+      return user;
     } catch (error) {
       throw new HttpException(
         `Failed to update user: ${error.message}`,

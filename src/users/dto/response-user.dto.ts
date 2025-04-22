@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Decimal } from '@prisma/client/runtime/library';
 
 export class UserResponseDto {
   @ApiProperty({
@@ -18,7 +17,7 @@ export class UserResponseDto {
     example: '100.00',
     description: 'The current balance of the user',
   })
-  balance: Decimal;
+  balance: number;
 
   @ApiProperty({
     example: '2024-04-22T10:00:00.000Z',
