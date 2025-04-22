@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { CreateReversalDto } from './dto/create-reversal.dto';
-import { TransactionType, TransactionStatus } from '@prisma/client';
+import { TransactionType, TransactionStatus, ReversalStatus } from '@prisma/client';
 
 @Injectable()
 export class TransactionsService {
@@ -75,13 +75,17 @@ export class TransactionsService {
 
       await tx.transaction.update({
         where: { id: transactionId },
-        data: { status: TransactionStatus.REVERSED },
+        data: {
+          status: TransactionStatus.REVERSED,
+          type: TransactionType.REVERSAL,
+        },
       });
 
       return tx.transactionReversal.create({
         data: {
           reason,
           transactionId,
+          status: ReversalStatus.APPROVED,
         },
       });
     });
