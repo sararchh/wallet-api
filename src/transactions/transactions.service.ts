@@ -62,6 +62,10 @@ export class TransactionsService {
       throw new BadRequestException('Transaction already reversed');
     }
 
+    if (transaction.senderId !== userId && transaction.receiverId !== userId) {
+      throw new BadRequestException('User not authorized to reverse this transaction');
+    }
+
     return this.prisma.$transaction(async tx => {
       await tx.user.update({
         where: { id: transaction.senderId },
